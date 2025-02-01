@@ -1,0 +1,164 @@
+@media (prefers-color-scheme: light) {
+    :root {
+      --text: #0a070e;
+      --background: #fff6f0;
+      --primary: #b5365a;
+      --secondary: #2e4376;
+      --accent: #293699;
+    }
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text: #f4f1f8;
+      --background: #0f0600;
+      --primary: #c94a6e;
+      --secondary: #899fd1;
+      --accent: #6673d6;
+    }
+  }
+  
+
+.amatic-sc-regular {
+    font-family: "Amatic SC", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+  
+.amatic-sc-bold {
+    font-family: "Amatic SC", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+/* Josh Cameau's CSS reset*/
+/* 1. Use a more-intuitive box-sizing model */
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+  
+  /* 2. Remove default margin */
+  * {
+    margin: 0;
+  }
+  
+  body {
+    /* 3. Add accessible line-height */
+    line-height: 1.5;
+    /* 4. Improve text rendering */
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  /* 5. Improve media defaults */
+  img, picture, video, canvas, svg {
+    display: block;
+    max-width: 100%;
+  }
+  
+  /* 6. Inherit fonts for form controls */
+  input, button, textarea, select {
+    font: inherit;
+  }
+  
+  /* 7. Avoid text overflows */
+  p, h1, h2, h3, h4, h5, h6 {
+    overflow-wrap: break-word;
+  }
+  
+  /* 8. Improve line wrapping */
+  p {
+    text-wrap: pretty;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+  
+  /*
+    9. Create a root stacking context
+  */
+  #root, #__next {
+    isolation: isolate;
+}
+
+body {
+    background-color: var(--background);
+    font-family: "Amatic SC", serif;
+}
+
+.flex {
+    display: flex;
+}
+
+.column {
+    flex-direction: column;
+}
+
+.grid-container {
+    display: grid;
+    height: 100vh;
+}
+
+#layout {
+    grid-template: 1fr 8fr / 1fr 5fr;
+    grid-template-areas: "header header"
+                         "sidebar main";
+}
+
+header {
+    grid-area: header;
+    border-bottom: solid 1px gray;
+}
+
+#sidebar {
+    grid-area: sidebar;
+    border-right: 1px solid gray;
+    font-size: 2rem;
+
+    padding: 1.3rem 0 1.3rem 2rem;
+    gap: 2rem;
+}
+
+#main {
+    grid-area: main;
+}
+
+header > nav {
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+}
+
+nav > button {
+    background: none;
+    border: none;
+    text-align: center;
+    font-family: "Amatic SC", serif;
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+#logo > span {
+    color: var(--primary);
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+svg {
+    display: inline-block;
+    stroke: var(--primary);
+    margin-right: 0.4rem;
+}
+
+#sidebar > div {
+    gap: 0.5rem;
+}
+
+#sidebar > div> div:hover {
+    cursor: pointer;
+}
+
+.filter-heading {
+    font-size: 2.2rem;
+    font-weight: 700;
+}
