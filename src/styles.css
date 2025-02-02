@@ -160,31 +160,55 @@ nav > button {
   gap: 0.8rem;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.task-card {
+  display: grid;
+  grid-template: min-content 1fr min-content / max-content 1fr;
+  grid-template-areas: "title priority"
+                       "desc desc"
+                       "date controls";
+  gap: 0.3rem;
   border-radius: 0.3rem;
   background-color: rgba(255, 255, 255);
   padding: 1rem 2rem;
 }
 
-.card p {
-
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
-  font-size: 1.5rem;
+.title {
+  grid-area: title;
 }
 
+.priority {
+  grid-area: priority;
+  font-size: 1.5rem;
+  font-weight: 700;
+  justify-self: right;
+  color: #c94a6e;
+}
+
+
+.task-card p {
+  grid-area: desc;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 1.7rem;
+  margin-bottom: auto;
+}
+
+.controls {
+  grid-area: controls;
+  justify-self: right;
+}
+
+
+/* 
 .info {
   margin-top: auto;
   align-items: center;
   justify-content: space-between;
-}
+} */
 
-.info button {
+.task-card button {
   background: none;
   border: none;
   padding: none;
@@ -196,6 +220,7 @@ nav > button {
 }
 
 .date {
+  grid-area: date;
   font-size: 1.3rem;
 }
 
