@@ -94,13 +94,13 @@ body {
 
 .grid-container {
     display: grid;
-    height: 100vh;
 }
 
 #layout {
     grid-template: 1fr 8fr / 1fr 5fr;
     grid-template-areas: "header header"
                          "sidebar main";
+    height: 100vh;
 }
 
 header {
@@ -140,15 +140,6 @@ nav > button {
     color: var(--primary);
 }
 
-button:hover {
-    cursor: pointer;
-}
-
-svg {
-    display: inline-block;
-    stroke: var(--primary);
-    margin-right: 0.4rem;
-}
 
 #sidebar > div {
     gap: 0.5rem;
@@ -161,4 +152,62 @@ svg {
 .filter-heading {
     font-size: 2.2rem;
     font-weight: 700;
+}
+
+#main {
+  grid-template: repeat(auto-fill, minmax(200px, 1fr)) / repeat(auto-fill, minmax(400px, 1fr));
+  padding: 2rem;
+  gap: 0.8rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-radius: 0.3rem;
+  background-color: rgba(255, 255, 255);
+  padding: 1rem 2rem;
+}
+
+.card p {
+
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  font-size: 1.5rem;
+}
+
+.info {
+  margin-top: auto;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.info button {
+  background: none;
+  border: none;
+  padding: none;
+  
+}
+
+.info svg {
+  margin-right: 0.1rem;
+}
+
+.date {
+  font-size: 1.3rem;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+svg {
+  display: inline-block;
+  stroke: var(--primary);
+}
+
+#sidebar svg{
+  margin-right: 0.4rem;
 }
