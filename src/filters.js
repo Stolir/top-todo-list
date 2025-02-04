@@ -25,9 +25,45 @@ export const defaultFilters = [
     },
 ]
 
+export const myLists = [
+    {
+        name: "My Custom List 1",
+        icon: assets["list.svg"]
+    },
+    {
+        name: "My Custom List 2",
+        icon: assets["list.svg"]
+    },
+]
+
+export const noteLists = [
+    {
+        name: "TOP Notes",
+        icon: assets["file-text.svg"]
+    },
+];
 
 const tasks = [];
 const notes = [];
+
+
+class myList {
+    constructor(name) {
+        this.name = name;
+        this.icon = assets["list.svg"];
+        this.tasks = [];
+        myLists.push(this)
+    }
+}
+
+class NoteList {
+    constructor(name) {
+        this.name = name;
+        this.icon = assets["file-text.svg"];
+        this.notes = [];
+        noteLists.push(this);
+    }
+}
 
 class Task {
     constructor(title, description, dueDate, priority, status, list){
