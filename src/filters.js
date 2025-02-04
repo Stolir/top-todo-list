@@ -1,19 +1,32 @@
-const tasks = [    
-    new Task(
-    "Complete Project Proposal",
-    "Draft and finalize the project proposal for the new client.",
-    "2025-11-15",
-    "high",
-    "pending",
-),
-    new Task(
-    "Grocery Shopping",
-    "Buy groceries for the week including fruits, vegetables, and snacks.",
-    "2025-11-10",
-    "medium",
-    "pending",
-)];
+import { importAll } from "./helper";
 
+export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
+
+export const defaultFilters = [
+    {
+        name: "All",
+        icon: assets["inbox.svg"]
+    },
+    {
+        name: "Today",
+        icon: assets["clock.svg"]
+    },
+    {
+        name: "This week",
+        icon: assets["calendar.svg"]
+    },
+    {
+        name: "Overdue",
+        icon: assets["alert-circle.svg"]
+    },
+    {
+        name: "Archived",
+        icon: assets["archive.svg"]
+    },
+]
+
+
+const tasks = [];
 const notes = [];
 
 class Task {

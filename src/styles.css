@@ -160,16 +160,35 @@ nav > button {
   gap: 0.8rem;
 }
 
-.task-card {
+.task-card, 
+.list-card, 
+.note-card {
   display: grid;
-  grid-template: min-content 1fr min-content / max-content 1fr;
-  grid-template-areas: "title priority"
-                       "desc desc"
-                       "date controls";
   gap: 0.3rem;
   border-radius: 0.3rem;
   background-color: rgba(255, 255, 255);
   padding: 1rem 2rem;
+} 
+
+.list-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: 700;
+  gap: 0.8rem;
+}
+
+.list-card:hover {
+  cursor: pointer;
+  background-color: rgb(0, 0, 0, 0.1);
+}
+
+.task-card {
+  grid-template: min-content 1fr min-content / max-content 1fr;
+  grid-template-areas: "title priority"
+                       "desc desc"
+                       "date controls";
 }
 
 .title {
@@ -200,23 +219,11 @@ nav > button {
   justify-self: right;
 }
 
-
-/* 
-.info {
-  margin-top: auto;
-  align-items: center;
-  justify-content: space-between;
-} */
-
 .task-card button {
   background: none;
   border: none;
   padding: none;
   
-}
-
-.info svg {
-  margin-right: 0.1rem;
 }
 
 .date {
@@ -228,11 +235,10 @@ button:hover {
   cursor: pointer;
 }
 
-svg {
-  display: inline-block;
-  stroke: var(--primary);
+img {
+  display: inline;
 }
 
-#sidebar svg{
+#sidebar img{
   margin-right: 0.4rem;
 }
