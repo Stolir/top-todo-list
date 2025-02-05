@@ -27,32 +27,31 @@ export const defaultFilters = [
 
 export const myLists = [
     {
-        name: "My Custom List 1",
-        icon: assets["list.svg"]
-    },
-    {
-        name: "My Custom List 2",
-        icon: assets["list.svg"]
-    },
-]
+        name: "New",
+        icon: assets["plus-circle.svg"]
+    }
+];
 
 export const noteLists = [
     {
-        name: "TOP Notes",
-        icon: assets["file-text.svg"]
+        name: "All",
+        icon: assets["inbox.svg"]
     },
+    {
+        name: "New",
+        icon: assets["plus-circle.svg"]
+    }
 ];
 
 const tasks = [];
 const notes = [];
 
 
-class myList {
+class MyList {
     constructor(name) {
         this.name = name;
         this.icon = assets["list.svg"];
         this.tasks = [];
-        myLists.push(this)
     }
 }
 
@@ -61,7 +60,6 @@ class NoteList {
         this.name = name;
         this.icon = assets["file-text.svg"];
         this.notes = [];
-        noteLists.push(this);
     }
 }
 
@@ -76,7 +74,7 @@ class Task {
     }
 
     toggleStatus (){
-        this.status === "completed" ? this.status = "pending" : this.status = "completed"
+        this.status === "completed" ? this.status = "pending" : this.status = "completed";
     }
 
 
@@ -88,6 +86,17 @@ class Note {
         this.description = description;
         this.list = "notes"; 
     }
+}
+
+
+export function makeList(name="Unnamed List") {
+    const list = new MyList(name);
+    myLists.splice((myLists.length -1), 0, list);
+}
+
+export function makeNoteList(name="Unnamed List") {
+    const noteList = new NoteList(name);
+    noteLists.splice((noteLists.length -1), 0, noteList);
 }
 
 export function makeTask(title, description, dueDate, priority, status, list="none") {

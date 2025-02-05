@@ -45,7 +45,7 @@ const sidebar = document.querySelectorAll("#sidebar > div")
             div.appendChild(icon);
 
             div.appendChild(document.createTextNode(list.name));
-            sidebar[index].insertBefore(div, sidebar[index].children[sidebar[index].children.length - 1])
+            sidebar[index].append(div)
         }
         index++;
     }
