@@ -1,3 +1,5 @@
+import { showCreateListModal } from "./helper";
+
 const cardContainer = document.querySelector("#main");
 const sidebar = document.querySelectorAll("#sidebar > div")
 
@@ -21,7 +23,7 @@ const sidebar = document.querySelectorAll("#sidebar > div")
  } 
 
  export function displaySidebar(defaultLists, ...OtherLists){
-    
+    cleanSidebar()
     for (let list of defaultLists) {
         const div = document.createElement("div");
 
@@ -48,5 +50,13 @@ const sidebar = document.querySelectorAll("#sidebar > div")
             sidebar[index].append(div)
         }
         index++;
+    }
+ }
+
+ function cleanSidebar() {
+    for (let list of sidebar) {
+        while (list.children.length > 1) {
+            list.removeChild(list.lastChild);
+        }
     }
  }

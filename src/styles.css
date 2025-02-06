@@ -242,3 +242,33 @@ img {
 #sidebar img{
   margin-right: 0.4rem;
 }
+
+.filter-heading {
+  gap: 1rem;
+}
+
+dialog {
+  margin: auto;
+  border: 1px solid gray;
+  font-size: 2rem;
+}
+
+dialog label {
+  font-weight: 700;
+}
+
+dialog form {
+  gap: 1rem;
+}
+
+dialog .buttons {
+  gap: 0.5rem;
+}
+
+form input {
+  padding: 0.2rem;
+}
+
+form input:focus {
+  outline: none;
+}

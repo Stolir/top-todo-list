@@ -1,4 +1,5 @@
 import { importAll } from "./helper";
+import { displaySidebar, displayFilterCards } from "./display";
 
 export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
 
@@ -26,25 +27,17 @@ export const defaultFilters = [
 ]
 
 export const myLists = [
-    {
-        name: "New",
-        icon: assets["plus-circle.svg"]
-    }
+
 ];
+
+
 
 export const noteLists = [
     {
         name: "All",
         icon: assets["inbox.svg"]
     },
-    {
-        name: "New",
-        icon: assets["plus-circle.svg"]
-    }
 ];
-
-const tasks = [];
-const notes = [];
 
 
 class MyList {
@@ -92,14 +85,18 @@ class Note {
 export function makeList(name="Unnamed List") {
     const list = new MyList(name);
     myLists.splice((myLists.length -1), 0, list);
+    displaySidebar(defaultFilters, myLists, noteLists);
+    displayFilterCards(myLists);
 }
 
 export function makeNoteList(name="Unnamed List") {
     const noteList = new NoteList(name);
     noteLists.splice((noteLists.length -1), 0, noteList);
+    displaySidebar(defaultFilters, myLists, noteLists);
+    displayFilterCards(noteLists);
 }
 
-export function makeTask(title, description, dueDate, priority, status, list="none") {
-    const task = new Task(title, description, dueDate, priority, status, list);
-    tasks.push(task);
-}
+// export function makeTask(title, description, dueDate, priority, status, list="none") {
+//     const task = new Task(title, description, dueDate, priority, status, list);
+//     tasks.push(task);
+// }

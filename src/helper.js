@@ -6,3 +6,21 @@ export function importAll (directory) {
   });
   return images;
 }
+
+const createListModal = document.querySelector("#createList");
+
+export function showCreateListModal(createFunction) {
+  console.log("running")
+  createListModal.showModal();
+  const form = createListModal.querySelector("form");
+  form.addEventListener("submit", (e) => {
+    if (e.submitter.formMethod !== "dialog") {
+      e.preventDefault();
+
+      createFunction(form.querySelector("#listName").value);
+      createListModal.close();
+      form.reset()
+    }
+
+  }, {once: true})
+}
