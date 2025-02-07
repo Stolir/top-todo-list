@@ -1,5 +1,5 @@
 import { importAll } from "./helper";
-import { displaySidebar, displayFilterCards } from "./display";
+import { displayFilterCards, sidebar } from "./display";
 
 export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
 
@@ -46,6 +46,10 @@ class MyList {
         this.icon = assets["list.svg"];
         this.tasks = [];
     }
+
+    getTasks() {
+        return this.tasks;
+    }
 }
 
 class NoteList {
@@ -54,9 +58,20 @@ class NoteList {
         this.icon = assets["file-text.svg"];
         this.notes = [];
     }
+    
+    getNotes() {
+        return this.notes;
+    }
 }
 
 class Task {
+    static icons = {
+        "view": assets["eye.svg"], 
+        "star": assets["star.svg"], 
+        "edit": assets["edit.svg"], 
+        "archive": assets["archive.svg"], 
+        "delete": assets["trash-2.svg"]
+    }
     constructor(title, description, dueDate, priority, status, list){
         this.title = title;
         this.description = description;
@@ -74,10 +89,17 @@ class Task {
 }
 
 class Note {
-    constructor(title, description){
+    static icons = {
+        "view": assets["eye.svg"], 
+        "star": assets["star.svg"], 
+        "edit": assets["edit.svg"], 
+        "archive": assets["archive.svg"], 
+        "delete": assets["trash-2.svg"]
+    }
+    constructor(title, description, list){
         this.title = title;
         this.description = description;
-        this.list = "notes"; 
+        this.list = list; 
     }
 }
 
@@ -85,18 +107,18 @@ class Note {
 export function makeList(name="Unnamed List") {
     const list = new MyList(name);
     myLists.splice((myLists.length -1), 0, list);
-    displaySidebar(defaultFilters, myLists, noteLists);
+    sidebar.display(defaultFilters, myLists, noteLists);
     displayFilterCards(myLists);
 }
 
 export function makeNoteList(name="Unnamed List") {
     const noteList = new NoteList(name);
     noteLists.splice((noteLists.length -1), 0, noteList);
-    displaySidebar(defaultFilters, myLists, noteLists);
+    sidebar.display(defaultFilters, myLists, noteLists);
     displayFilterCards(noteLists);
 }
 
-// export function makeTask(title, description, dueDate, priority, status, list="none") {
-//     const task = new Task(title, description, dueDate, priority, status, list);
-//     tasks.push(task);
-// }
+export function makeTask(title, description, dueDate, priority, status, list="none") {
+    const task = new Task(title, description, dueDate, priority, status, list);
+    list.push(task);
+}

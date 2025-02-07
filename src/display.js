@@ -1,7 +1,5 @@
-import { showCreateListModal } from "./helper";
-
 const cardContainer = document.querySelector("#main");
-const sidebar = document.querySelectorAll("#sidebar > div")
+const sidebarElement = document.querySelectorAll("#sidebar > div")
 
 
  export function displayFilterCards(filters){
@@ -22,41 +20,48 @@ const sidebar = document.querySelectorAll("#sidebar > div")
     }
  } 
 
- export function displaySidebar(defaultLists, ...OtherLists){
-    cleanSidebar()
-    for (let list of defaultLists) {
-        const div = document.createElement("div");
 
-        const icon = document.createElement("img");
-        icon.src = list.icon;
-        div.appendChild(icon);
+export const sidebar = function (){
 
-        div.appendChild(document.createTextNode(list.name));
-
-        sidebar[0].appendChild(div);
-    }
-
-    let index = 1;
-
-    for (let lists of OtherLists) {
-        for(let list of lists) {
-            const div = document.createElement("div")
-
+    function display(defaultLists, ...OtherLists){
+        clean()
+        for (let list of defaultLists) {
+            const div = document.createElement("div");
+    
             const icon = document.createElement("img");
             icon.src = list.icon;
             div.appendChild(icon);
-
+    
             div.appendChild(document.createTextNode(list.name));
-            sidebar[index].append(div)
+    
+            sidebarElement[0].appendChild(div);
         }
-        index++;
-    }
- }
+    
+        let index = 1;
+    
+        for (let lists of OtherLists) {
+            for(let list of lists) {
+                const div = document.createElement("div")
+    
+                const icon = document.createElement("img");
+                icon.src = list.icon;
+                div.appendChild(icon);
+    
+                div.appendChild(document.createTextNode(list.name));
+                sidebarElement[index].append(div)
+            }
+            index++;
+        }
+     }
+    
+     function clean() {
+        for (let list of sidebarElement) {
+            while (list.children.length > 1) {
+                list.removeChild(list.lastChild);
+            }
+        }
+     }
+ 
 
- function cleanSidebar() {
-    for (let list of sidebar) {
-        while (list.children.length > 1) {
-            list.removeChild(list.lastChild);
-        }
-    }
- }
+    return { display }
+}()
