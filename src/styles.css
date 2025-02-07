@@ -200,7 +200,6 @@ nav > button {
   font-size: 1.5rem;
   font-weight: 700;
   justify-self: right;
-  color: #c94a6e;
 }
 
 
@@ -271,4 +270,22 @@ form input {
 
 form input:focus {
   outline: none;
+}
+
+#createNew {
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  width: 65px;
+  height: 65px;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  border: var(--primary) 1px solid;
+}
+
+#creationType div{
+  gap: 1rem;
 }

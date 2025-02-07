@@ -64,7 +64,7 @@ class NoteList {
     }
 }
 
-class Task {
+export class Task {
     static icons = {
         "view": assets["eye.svg"], 
         "star": assets["star.svg"], 
@@ -88,7 +88,7 @@ class Task {
 
 }
 
-class Note {
+export class Note {
     static icons = {
         "view": assets["eye.svg"], 
         "star": assets["star.svg"], 
