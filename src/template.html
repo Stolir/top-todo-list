@@ -142,9 +142,16 @@
                 <input type="date" id="dueDate" name="dueDate">
             </div>
 
+            <div class="flex column">
+                <label for="myLists">List:</label>
+                <select name="myLists" id="myLists" required>
+                    <option value="none" selected>None</option>
+                </select>
+            </div>
+
             <div class="buttons flex">
                 <button type="submit">Create</button>
-                <button type="submit" formmethod="dialog" onclick="form.reset()" formnovalidate>Cancel</button>
+                <button type="submit" formmethod="dialog" onclick="form.reset()" formnovalidate>Back</button>
             </div>
         </form>
     </dialog>
@@ -159,9 +166,15 @@
                 <label for="description">Description:</label>
                 <textarea name="description" id="description"></textarea>
             </div>
+            <div class="flex column">
+                <label for="noteLists">List:</label>
+                <select name="noteLists" id="noteLists" required>
+                    <option value="none" selected>None</option>
+                </select>
+            </div>
             <div class="buttons flex">
                 <button type="submit">Create</button>
-                <button type="submit" formmethod="dialog" onclick="form.reset()" formnovalidate>Cancel</button>
+                <button type="submit" formmethod="dialog" onclick="form.reset()" formnovalidate>Back</button>
             </div>
         </form>
     </dialog>

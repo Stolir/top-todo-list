@@ -1,3 +1,5 @@
+import { makeNew } from "./filters";
+
 // imports all files (images/svgs/pngs etc) and maps them to a directory
 export function importAll (directory) {
     let images = {};
@@ -7,13 +9,30 @@ export function importAll (directory) {
   return images;
 }
 
-
+// options would be an object of lists
+function populateOptions (targetElm, options){
+  const index = 0;
+  targetElm.textContent = '';
+  for (let option of options) {
+    const optionElm = document.createElement("option");
+    optionElm.setAttribute("value", `${index}`);
+    optionElm.setAttribute("id", `${option.name}`);
+    optionElm.textContent = `${option.name}`;
+    targetElm.appendChild(optionElm);
+    index++;
+  }
+}
 
 const createListModal = document.querySelector("#createList");
-const creationTypeModal = document.querySelector("#creationType");
-const createTaskModal = document.querySelector("#createTask");
-const createNoteModal = document.querySelector("#createNote");
 
+// modal that prompts whether the use to choose "task" or "note" to then view the corresponding creation modal
+const creationTypeModal = document.querySelector("#creationType");
+
+const createTaskModal = document.querySelector("#createTask");
+const myListSelect = createTaskModal.querySelector("#myLists");
+
+const createNoteModal = document.querySelector("#createNote");
+const noteListSelect = createNoteModal.querySelector("#noteLists");
 
 export const showModal = function (){
 
@@ -34,7 +53,7 @@ export const showModal = function (){
   }
 
 // handle creating tasks/notes
-  const creationType = () => {
+  const creationType = (myLists, noteLists) => {
     creationTypeModal.showModal()
     const form = creationTypeModal.querySelector("form");
     form.addEventListener("submit", (e) => {
@@ -42,23 +61,58 @@ export const showModal = function (){
         e.preventDefault();
         
         if (e.submitter.id === "task") {
-          createTask(form);
+          createTask(myListSelect ,myLists);
         }
         else {
-          createNote(form)
+          createNote(noteListSelect ,noteLists)
         }
   
       }
     })
   }
 
-  const createTask = () => {
+  const createTask = (selectElm, list) => {
+    populateOptions(selectElm, list);
     createTaskModal.showModal()
+    const form = createTaskModal.querySelector("form");
+    form.addEventListener("submit", (e) => {
+      if (e.submitter.formMethod !== "dialog") {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+
+        makeNew.task(
+          formData.get("taskTitle"),
+          formData.get("description"),
+          formData.get("dueDate"),
+          formData.get("priority"),
+          "pending",
+          formData.get("myLists")
+        );
+
+      }
+    })
 
   }
 
-  const createNote = () => {
+  const createNote = (selectElm, list) => {
+    populateOptions(selectElm, list);
     createNoteModal.showModal()
+    const form = createNoteModal.querySelector("form");
+    form.addEventListener("submit", (e) => {
+      if (e.submitter.formMethod !== "dialog") {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+
+        makeNew.note(
+          formData.get("taskTitle"),
+          formData.get("description"),
+          formData.get("noteLists")
+        );
+
+      }
+    })
   }
 
   return { createList, creationType }

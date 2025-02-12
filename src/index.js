@@ -1,6 +1,6 @@
 import "./styles.css"
 import { displayFilterCards, sidebar } from "./display.js"
-import { defaultFilters, myLists, noteLists, makeList, makeNoteList } from "./filters.js";
+import { defaultFilters, myLists, noteLists, makeNew } from "./filters.js";
 import { showModal } from "./helper";
 
 const logo = document.querySelector("#logo");
@@ -35,14 +35,14 @@ noteListsElement.addEventListener("click", () => {
 });
 
 newListButton.addEventListener("click", () => {
-    showModal.createList(makeList);
+    showModal.createList(makeNew.myList);
 
 })
 
 newNoteListButton.addEventListener("click", () => {
-    showModal.createList(makeNoteList);
+    showModal.createList(makeNew.noteList);
 })
 
 createNewButton.addEventListener("click", () => {
-    showModal.creationType()
+    showModal.creationType(myLists, noteLists)
 })
