@@ -1,5 +1,5 @@
 import "./styles.css"
-import { displayFilterCards, sidebar } from "./display.js"
+import { displayCards, sidebar } from "./display.js"
 import { defaultFilters, myLists, noteLists, makeNew } from "./filters.js";
 import { showModal } from "./helper";
 
@@ -14,24 +14,24 @@ const newNoteListButton = noteListsElement.querySelector("img");
 const createNewButton = document.querySelector("#createNew");
 
 window.addEventListener("load", () => {
-    displayFilterCards(defaultFilters);
+    displayCards.filters(defaultFilters);
     sidebar.display(defaultFilters ,myLists, noteLists);
 })
 
 logo.addEventListener("click", () => {
-    displayFilterCards(defaultFilters);
+    displayCards.filters(defaultFilters);
 });
 
 defaultListsElement.addEventListener("click", () => {
-    displayFilterCards(defaultFilters);
+    displayCards.filters(defaultFilters);
 });
 
 myListsElement.addEventListener("click", () => {
-    displayFilterCards(myLists);
+    displayCards.filters(myLists);
 });
 
 noteListsElement.addEventListener("click", () => {
-    displayFilterCards(noteLists);
+    displayCards.filters(noteLists);
 });
 
 newListButton.addEventListener("click", () => {

@@ -3,17 +3,37 @@ import { Task, Note } from "./filters";
 const cardContainer = document.querySelector("#main");
 const sidebarElement = document.querySelectorAll("#sidebar > div")
 
-
- export function displayFilterCards(filters){
+export const displayCards = function(){
+  const filters = (filterList) => {
     cardContainer.textContent = "";
     
-    for (let filter of filters) {
+    for (let filter of filterList) {
         const card = makeCard.list(filter);
     
         cardContainer.appendChild(card)
     }
  } 
 
+ const tasks = (taskList) => {
+    cardContainer.textContent = "";
+
+    for (let task of taskList) {
+        const card = makeCard.task(task);
+        cardContainer.appendChild(card);
+    }
+ }
+
+ const notes = (noteList) => {
+    cardContainer.textContent = "";
+
+    for (let note of noteList) {
+        const card = makeCard.task(note);
+        cardContainer.appendChild(card);
+    }
+ } 
+
+ return { filters, tasks, notes }
+}()
 
 export const sidebar = function (){
 
@@ -117,6 +137,7 @@ const makeCard = function (){
         }
 
         card.appendChild(controls);
+        return card;
     }
 
     const note = (note) => {
@@ -153,6 +174,7 @@ const makeCard = function (){
         }
 
         card.appendChild(controls)
+        return card;
     }
 
     return { list, task, note }

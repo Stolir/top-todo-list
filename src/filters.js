@@ -1,5 +1,5 @@
 import { importAll } from "./helper";
-import { displayFilterCards, sidebar } from "./display";
+import { displayCards, sidebar } from "./display";
 
 export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
 
@@ -26,24 +26,11 @@ export const defaultFilters = [
     },
 ]
 
-export const myLists = [
-
-];
-
-
-
-export const noteLists = [
-    {
-        name: "All",
-        icon: assets["inbox.svg"]
-    },
-];
-
 
 class MyList {
-    constructor(name) {
+    constructor(name, icon=assets["list.svg"]) {
         this.name = name;
-        this.icon = assets["list.svg"];
+        this.icon = icon;
         this.tasks = [];
     }
 
@@ -53,9 +40,9 @@ class MyList {
 }
 
 class NoteList {
-    constructor(name) {
+    constructor(name, icon) {
         this.name = name;
-        this.icon = assets["file-text.svg"];
+        this.icon = icon;
         this.notes = [];
     }
     
@@ -107,29 +94,41 @@ export class Note {
 
 export const makeNew = function (){ 
 
-    const myList = (name="Unnamed List") => {
-        const list = new MyList(name);
+    const myList = (name="Unnamed List", icon=assets["list.svg"]) => {
+        const list = new MyList(name, icon);
         myLists.splice((myLists.length -1), 0, list);
         sidebar.display(defaultFilters, myLists, noteLists);
-        displayFilterCards(myLists);
+        displayCards.filters(myLists);
     }
 
-    const noteList = (name="Unnamed List") => {
-        const noteList = new NoteList(name);
+    const noteList = (name="Unnamed List", icon=assets["file-text.svg"]) => {
+        const noteList = new NoteList(name, icon);
         noteLists.splice((noteLists.length -1), 0, noteList);
         sidebar.display(defaultFilters, myLists, noteLists);
-        displayFilterCards(noteLists);
+        displayCards.filters(noteLists);
     }
 
-    const task = (title, description, dueDate, priority, status, list) => {
-        const task = new Task(title, description, dueDate, priority, status, list);
-        myLists[list].tasks.push(task);
+    const task = (title, description, dueDate, priority, status, listIndex) => {
+        const task = new Task(title, description, dueDate, priority, status, myLists[listIndex]);
+        console.log(myLists[listIndex])
+        myLists[listIndex].tasks.push(task);
     }
 
-    const note = (title, description, list) => {
-        const note = new Note(title, description, list);
-        noteLists.notes.push(note);
+    const note = (title, description, listIndex) => {
+        const note = new Note(title, description, noteLists[listIndex]);
+        console.log(noteLists[listIndex])
+        noteLists[listIndex].notes.push(note);
     }
 
     return { myList, noteList, task, note }
 }()
+
+export const myLists = [
+    new MyList("My Nice List 1")
+];
+
+
+
+export const noteLists = [
+    new NoteList("All", assets["inbox.svg"])
+];

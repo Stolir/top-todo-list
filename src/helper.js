@@ -11,7 +11,7 @@ export function importAll (directory) {
 
 // options would be an object of lists
 function populateOptions (targetElm, options){
-  const index = 0;
+  let index = 0;
   targetElm.textContent = '';
   for (let option of options) {
     const optionElm = document.createElement("option");
@@ -25,14 +25,26 @@ function populateOptions (targetElm, options){
 
 const createListModal = document.querySelector("#createList");
 
+
+
+
 // modal that prompts whether the use to choose "task" or "note" to then view the corresponding creation modal
 const creationTypeModal = document.querySelector("#creationType");
+
+
+
 
 const createTaskModal = document.querySelector("#createTask");
 const myListSelect = createTaskModal.querySelector("#myLists");
 
+
+
+
 const createNoteModal = document.querySelector("#createNote");
 const noteListSelect = createNoteModal.querySelector("#noteLists");
+
+
+
 
 export const showModal = function (){
 
@@ -61,14 +73,14 @@ export const showModal = function (){
         e.preventDefault();
         
         if (e.submitter.id === "task") {
-          createTask(myListSelect ,myLists);
+          createTask(myListSelect, myLists);
         }
         else {
-          createNote(noteListSelect ,noteLists)
+          createNote(noteListSelect, noteLists)
         }
-  
+        creationTypeModal.close()
       }
-    })
+    }, {once: true})
   }
 
   const createTask = (selectElm, list) => {
@@ -80,19 +92,20 @@ export const showModal = function (){
         e.preventDefault();
         
         const formData = new FormData(form);
-
+        console.log(Number(formData.get("taskLists")))
         makeNew.task(
           formData.get("taskTitle"),
           formData.get("description"),
           formData.get("dueDate"),
           formData.get("priority"),
           "pending",
-          formData.get("myLists")
+          Number(formData.get("myLists"))
         );
 
       }
-    })
-
+      createTaskModal.close()
+    }, {once: true})
+    
   }
 
   const createNote = (selectElm, list) => {
@@ -102,17 +115,19 @@ export const showModal = function (){
     form.addEventListener("submit", (e) => {
       if (e.submitter.formMethod !== "dialog") {
         e.preventDefault();
-        
-        const formData = new FormData(form);
 
+        const formData = new FormData(form);
+        console.log(Number(formData.get("noteLists")))
         makeNew.note(
-          formData.get("taskTitle"),
+          formData.get("noteTitle"),
           formData.get("description"),
-          formData.get("noteLists")
+          Number(formData.get("noteLists"))
         );
 
       }
-    })
+      createNoteModal.close()
+    }, {once: true})
+    
   }
 
   return { createList, creationType }
