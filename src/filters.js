@@ -96,14 +96,14 @@ export const makeNew = function (){
 
     const myList = (name="Unnamed List", icon=assets["list.svg"]) => {
         const list = new MyList(name, icon);
-        myLists.splice((myLists.length -1), 0, list);
+        myLists.push(list);
         sidebar.display(defaultFilters, myLists, noteLists);
         displayCards.filters(myLists);
     }
 
     const noteList = (name="Unnamed List", icon=assets["file-text.svg"]) => {
         const noteList = new NoteList(name, icon);
-        noteLists.splice((noteLists.length -1), 0, noteList);
+        noteLists.push(noteList);
         sidebar.display(defaultFilters, myLists, noteLists);
         displayCards.filters(noteLists);
     }
@@ -124,7 +124,7 @@ export const makeNew = function (){
 }()
 
 export const myLists = [
-    new MyList("My Nice List 1")
+    new MyList("My Custom List")
 ];
 
 

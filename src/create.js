@@ -118,5 +118,5 @@ import { myLists, noteLists } from "./filters";
       createNoteModal.showModal()
     }
   
-    return { myList, noteList, creationType, createTask,createNote }
+    return { myList, noteList, creationType, createTask, createNote }
   }()

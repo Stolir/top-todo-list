@@ -27,7 +27,7 @@ export const displayCards = function(){
     cardContainer.textContent = "";
 
     for (let note of noteList) {
-        const card = makeCard.task(note);
+        const card = makeCard.note(note);
         cardContainer.appendChild(card);
     }
  } 
@@ -37,7 +37,7 @@ export const displayCards = function(){
 
 export const sidebar = function (){
 
-    const display = (defaultLists, ...OtherLists) => {
+    const display = (defaultLists, myLists, noteLists) => {
         clean()
         for (let list of defaultLists) {
             const div = document.createElement("div");
@@ -51,22 +51,26 @@ export const sidebar = function (){
             sidebarElement[0].appendChild(div);
         }
     
-        let index = 1;
-    
-        for (let lists of OtherLists) {
-            for(let list of lists) {
-                const div = document.createElement("div")
-    
-                const icon = document.createElement("img");
-                icon.src = list.icon;
-                div.appendChild(icon);
-    
-                div.appendChild(document.createTextNode(list.name));
-                sidebarElement[index].append(div)
-            }
-            index++;
+        for (let list of myLists) {
+            const div = makeElement(list)
+
+            div.addEventListener("click", () => {
+                displayCards.tasks(list.getTasks());
+            })
+
+            sidebarElement[1].append(div)
         }
-     }
+
+        for (let list of noteLists) {
+            const div = makeElement(list)
+
+            div.addEventListener("click", () => {
+                displayCards.notes(list.getNotes());
+            })
+
+            sidebarElement[2].append(div)
+        }
+    }
     
      const clean = () => {
         for (let list of sidebarElement) {
@@ -76,6 +80,16 @@ export const sidebar = function (){
         }
      }
  
+     const makeElement = (list) => {
+        const div = document.createElement("div")
+    
+        const icon = document.createElement("img");
+        icon.src = list.icon;
+        div.appendChild(icon);
+
+        div.appendChild(document.createTextNode(list.name));
+        return div
+     }
 
     return { display }
 }()
@@ -105,7 +119,7 @@ const makeCard = function (){
         
         const priority = document.createElement("div");
         priority.textContent = task.priority;
-        priority.classList.add(`priority ${task.priority}`);
+        priority.setAttribute("class", `priority ${task.priority}`);
         card.appendChild(priority);
 
         const description = document.createElement("p");
@@ -124,7 +138,7 @@ const makeCard = function (){
 
             const button = document.createElement("button");
             button.classList.add(`${icon}`);
-            button.setAttribute(type, "button");
+            button.setAttribute("type", "button");
 
             const img = document.createElement("img");
             img.setAttribute("width", "20");
@@ -161,7 +175,7 @@ const makeCard = function (){
 
             const button = document.createElement("button");
             button.classList.add(`${icon}`);
-            button.setAttribute(type, "button");
+            button.setAttribute("type", "button");
 
             const img = document.createElement("img");
             img.setAttribute("width", "20");

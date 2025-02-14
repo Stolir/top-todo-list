@@ -155,7 +155,7 @@ nav > button {
 }
 
 #main {
-  grid-template: repeat(auto-fill, minmax(200px, 1fr)) / repeat(auto-fill, minmax(400px, 1fr));
+  grid-template: repeat(auto-fill, minmax(250px, 1fr)) / repeat(auto-fill, minmax(450px, 1fr));
   padding: 2rem;
   gap: 0.8rem;
 }
@@ -193,6 +193,7 @@ nav > button {
 
 .title {
   grid-area: title;
+  
 }
 
 .priority {
@@ -202,6 +203,17 @@ nav > button {
   justify-self: right;
 }
 
+.urgent {
+ color: red; 
+}
+
+.moderate {
+  color: rgb(255, 166, 0);
+}
+
+.minor {
+  color: green;
+}
 
 .task-card p {
   grid-area: desc;
@@ -289,3 +301,4 @@ form input:focus {
 #creationType div{
   gap: 1rem;
 }
+

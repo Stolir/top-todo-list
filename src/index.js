@@ -15,7 +15,7 @@ const createNewButton = document.querySelector("#createNew");
 
 window.addEventListener("load", () => {
     displayCards.filters(defaultFilters);
-    sidebar.display(defaultFilters ,myLists, noteLists);
+    sidebar.display(defaultFilters, myLists, noteLists);
 })
 
 logo.addEventListener("click", () => {
