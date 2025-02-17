@@ -1,10 +1,10 @@
 import "./styles.css"
-import { displayCards, sidebar } from "./display.js"
+import { displayCards, sidebar, displayDefaultList, defaultFiltersElements } from "./display.js"
 import { defaultFilters, myLists, noteLists, makeNew } from "./filters.js";
-import { showModal } from "./create.js";
+import { showModal } from "./modals.js";
 
 const logo = document.querySelector("#logo");
-const defaultListsElement = document.querySelector("#default");
+const defaultListsElement = document.querySelector("#default-lists");
 const myListsElement = document.querySelector("#my-lists");
 const noteListsElement = document.querySelector("#notes");
 
@@ -13,9 +13,10 @@ const newNoteListButton = noteListsElement.querySelector("img");
 
 const createNewButton = document.querySelector("#createNew");
 
-window.addEventListener("load", () => {
+window.addEventListener("DOMContentLoaded", () => {
     displayCards.filters(defaultFilters);
     sidebar.display(defaultFilters, myLists, noteLists);
+    
 })
 
 logo.addEventListener("click", () => {
@@ -46,3 +47,10 @@ newNoteListButton.addEventListener("click", () => {
 createNewButton.addEventListener("click", () => {
     showModal.creationType()
 })
+
+// window.addEventListener("load", () => {
+//     const allList = defaultFiltersElements.find(list => list.id === "all")
+//     allList.addEventListener("click", () => {
+//         displayDefaultList.all(myLists);
+//     })
+// })

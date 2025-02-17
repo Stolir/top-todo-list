@@ -34,19 +34,19 @@ class MyList {
         this.tasks = [];
     }
 
-    getTasks() {
+    getItems() {
         return this.tasks;
     }
 }
 
 class NoteList {
-    constructor(name, icon) {
+    constructor(name, icon=assets["file-text.svg"]) {
         this.name = name;
         this.icon = icon;
         this.notes = [];
     }
     
-    getNotes() {
+    getItems() {
         return this.notes;
     }
 }
@@ -123,6 +123,22 @@ export const makeNew = function (){
     return { myList, noteList, task, note }
 }()
 
+export const filterBy = function() {
+
+    const all = () => {
+        const allItems = [];
+        for (let list of myLists) {
+            console.log(list.getItems())
+            for (let item of list.getItems()) {
+                allItems.push(item);
+            }
+        }
+        return allItems;
+    }
+
+    return { all }
+}()
+
 export const myLists = [
     new MyList("My Custom List")
 ];
@@ -130,5 +146,6 @@ export const myLists = [
 
 
 export const noteLists = [
-    new NoteList("All", assets["inbox.svg"])
+    new NoteList("The Odin Project")
 ];
+

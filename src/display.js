@@ -1,4 +1,4 @@
-import { Task, Note } from "./filters";
+import { Task, Note, filterBy } from "./filters";
 
 const cardContainer = document.querySelector("#main");
 const sidebarElement = document.querySelectorAll("#sidebar > div")
@@ -35,6 +35,8 @@ export const displayCards = function(){
  return { filters, tasks, notes }
 }()
 
+export const defaultFiltersElements = [];
+
 export const sidebar = function (){
 
     const display = (defaultLists, myLists, noteLists) => {
@@ -47,15 +49,20 @@ export const sidebar = function (){
             div.appendChild(icon);
     
             div.appendChild(document.createTextNode(list.name));
+            div.setAttribute("id", (list.name).replace(/\s+/g, '-').toLowerCase())
+            
+            defaultFiltersElements.push(div);
+            // console.log(defaultFiltersElements)
     
             sidebarElement[0].appendChild(div);
         }
-    
+        displayDefaultList.updateElements(defaultFiltersElements);
+
         for (let list of myLists) {
             const div = makeElement(list)
 
             div.addEventListener("click", () => {
-                displayCards.tasks(list.getTasks());
+                displayCards.tasks(list.getItems());
             })
 
             sidebarElement[1].append(div)
@@ -65,7 +72,7 @@ export const sidebar = function (){
             const div = makeElement(list)
 
             div.addEventListener("click", () => {
-                displayCards.notes(list.getNotes());
+                displayCards.notes(list.getItems());
             })
 
             sidebarElement[2].append(div)
@@ -78,6 +85,7 @@ export const sidebar = function (){
                 list.removeChild(list.lastChild);
             }
         }
+        defaultFiltersElements.length = 0;
      }
  
      const makeElement = (list) => {
@@ -193,3 +201,47 @@ const makeCard = function (){
 
     return { list, task, note }
 }()
+
+
+const todayList = document.querySelector("#today")
+const thisWeekList = document.querySelector("#this-week")
+const overdueList = document.querySelector("#overdue")
+const archivedList = document.querySelector("#archived")
+
+export const displayDefaultList = function() {
+
+    const updateElements = (elementsList) => {
+        const allList = elementsList.find(element => element.id === "all")
+        allList.addEventListener("click", () => {
+            all();
+        })
+
+        const todayList = elementsList.find(element => element.id === "today")
+        todayList.addEventListener("click", () => {
+            today();
+        })
+
+        const thisWeekList = elementsList.find(element => element.id === "this-week")
+        thisWeekList.addEventListener("click", () => {
+            thisWeek();
+        })
+
+        const overdueList = elementsList.find(element => element.id === "overdue")
+        overdueList.addEventListener("click", () => {
+            overdue();
+        })
+
+        const archivedList = elementsList.find(element => element.id === "archived")
+        archivedList.addEventListener("click", () => {
+            archived();
+        })
+    }
+
+    const all = () => {
+        const tasks = filterBy.all();
+        displayCards.tasks(tasks)
+    }
+
+    return { updateElements, all }
+}()
+
