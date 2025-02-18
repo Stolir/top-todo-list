@@ -1,5 +1,6 @@
 import { importAll } from "./helper";
 import { displayCards, sidebar } from "./display";
+import { isToday, isThisWeek, isPast } from "date-fns";
 
 export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
 
@@ -52,6 +53,7 @@ class NoteList {
 }
 
 export class Task {
+    static taskCount = 0;
     static icons = {
         "view": assets["eye.svg"], 
         "star": assets["star.svg"], 
@@ -65,7 +67,9 @@ export class Task {
         this.dueDate = dueDate;
         this.priority = priority;
         this.status = status;
-        this.list = list; 
+        this.list = list;
+        this.id = `#t${Task.taskCount}`
+        Task.taskCount++ 
     }
 
     toggleStatus (){
@@ -76,6 +80,7 @@ export class Task {
 }
 
 export class Note {
+    static noteCount = 0;
     static icons = {
         "view": assets["eye.svg"], 
         "star": assets["star.svg"], 
@@ -87,6 +92,8 @@ export class Note {
         this.title = title;
         this.description = description;
         this.list = list; 
+        this.id = `n${Note.noteCount}`
+        Note.noteCount++;
     }
 }
 
@@ -136,7 +143,50 @@ export const filterBy = function() {
         return allItems;
     }
 
-    return { all }
+    const today = () => {
+        const todayItems = [];
+        for (let list of myLists) {
+            console.log(list.getItems())
+            for (let item of list.getItems()) {
+                const date = new Date(item.dueDate)
+                if (isToday(date)) {
+                    todayItems.push(item)
+                }
+            }
+        }
+        return todayItems;
+    }
+
+    const thisWeek = () => {
+        const thisWeekItems = [];
+        for (let list of myLists) {
+            console.log(list.getItems())
+            for (let item of list.getItems()) {
+                const date = new Date(item.dueDate)
+                if (isThisWeek(date) && !isPast(date)) {
+                    thisWeekItems.push(item)
+                }
+            }
+        }
+        return thisWeekItems;
+    }
+
+    const overdue = () => {
+        const overdueItems = [];
+        for (let list of myLists) {
+            console.log(list.getItems())
+            for (let item of list.getItems()) {
+                const date = new Date(item.dueDate)
+                if (isPast(date) && !isToday(date)) {
+                    overdueItems.push(item)
+                }
+            }
+        }
+        return overdueItems;
+    }
+    
+
+    return { all, today, thisWeek, overdue }
 }()
 
 export const myLists = [

@@ -184,7 +184,8 @@ nav > button {
   background-color: rgb(0, 0, 0, 0.1);
 }
 
-.task-card {
+.task-card,
+.note-card {
   grid-template: min-content 1fr min-content / max-content 1fr;
   grid-template-areas: "title priority"
                        "desc desc"
@@ -215,7 +216,8 @@ nav > button {
   color: green;
 }
 
-.task-card p {
+.task-card p,
+.note-card p {
   grid-area: desc;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -230,7 +232,8 @@ nav > button {
   justify-self: right;
 }
 
-.task-card button {
+.task-card button,
+.note-card button {
   background: none;
   border: none;
   padding: none;

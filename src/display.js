@@ -4,7 +4,12 @@ const cardContainer = document.querySelector("#main");
 
 // testing purposes remove later
 cardContainer.addEventListener("click", (e) => {
-    console.log(e.target.parentElement.parentElement)
+    const button = e.target.parentElement;
+    
+    switch (true) {
+        case (button.classList.contains("delete")):
+
+    }
 })
 const sidebarContainer = document.querySelector("#sidebar");
 sidebarContainer.addEventListener("click", (e) => {
@@ -63,7 +68,6 @@ export const displayCards = function(){
  return { filters, tasks, notes }
 }()
 
-export const defaultFiltersElements = [];
 
 export const sidebar = function (){
 
@@ -79,12 +83,9 @@ export const sidebar = function (){
             div.appendChild(document.createTextNode(list.name));
             div.setAttribute("id", (list.name).replace(/\s+/g, '-').toLowerCase())
             
-            defaultFiltersElements.push(div);
-            // console.log(defaultFiltersElements)
     
             sidebarElement[0].appendChild(div);
         }
-        displayDefaultList.updateElements(defaultFiltersElements);
 
         for (let list of myLists) {
             const div = makeElement(list)
@@ -113,7 +114,6 @@ export const sidebar = function (){
                 list.removeChild(list.lastChild);
             }
         }
-        defaultFiltersElements.length = 0;
      }
  
      const makeElement = (list) => {
@@ -147,6 +147,7 @@ const makeCard = function (){
     const task = (task) => {
         const card = document.createElement("div");
         card.classList.add("task-card");
+        card.id = task.id;
 
         const title = document.createElement("h1");
         title.textContent = task.title;
@@ -192,7 +193,7 @@ const makeCard = function (){
 
     const note = (note) => {
         const card = document.createElement("div");
-        card.classList.add("task-card");
+        card.classList.add("note-card");
 
         const title = document.createElement("h1");
         title.textContent = note.title;
@@ -231,45 +232,33 @@ const makeCard = function (){
 }()
 
 
-const todayList = document.querySelector("#today")
-const thisWeekList = document.querySelector("#this-week")
-const overdueList = document.querySelector("#overdue")
-const archivedList = document.querySelector("#archived")
 
 export const displayDefaultList = function() {
-
-    const updateElements = (elementsList) => {
-        const allList = elementsList.find(element => element.id === "all")
-        allList.addEventListener("click", () => {
-            all();
-        })
-
-        const todayList = elementsList.find(element => element.id === "today")
-        todayList.addEventListener("click", () => {
-            today();
-        })
-
-        const thisWeekList = elementsList.find(element => element.id === "this-week")
-        thisWeekList.addEventListener("click", () => {
-            thisWeek();
-        })
-
-        const overdueList = elementsList.find(element => element.id === "overdue")
-        overdueList.addEventListener("click", () => {
-            overdue();
-        })
-
-        const archivedList = elementsList.find(element => element.id === "archived")
-        archivedList.addEventListener("click", () => {
-            archived();
-        })
-    }
 
     const all = () => {
         const tasks = filterBy.all();
         displayCards.tasks(tasks)
     }
 
-    return { updateElements, all }
+    const today = () => {
+        const tasks = filterBy.today();
+        displayCards.tasks(tasks)
+    }
+
+    const thisWeek = () => {
+        const tasks = filterBy.thisWeek();
+        displayCards.tasks(tasks)
+    }
+
+    const overdue = () => {
+        const tasks = filterBy.overdue();
+        displayCards.tasks(tasks)
+    }
+
+    const archived = () => {
+
+    }
+
+    return { all, today, thisWeek, overdue }
 }()
 
