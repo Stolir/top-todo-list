@@ -1,7 +1,35 @@
 import { Task, Note, filterBy } from "./filters";
 
 const cardContainer = document.querySelector("#main");
+
+// testing purposes remove later
+cardContainer.addEventListener("click", (e) => {
+    console.log(e.target.parentElement.parentElement)
+})
+const sidebarContainer = document.querySelector("#sidebar");
+sidebarContainer.addEventListener("click", (e) => {
+    console.log(e.target.id)
+    switch (e.target.id) {
+        case ("all"):
+            displayDefaultList.all();
+            break;
+        case ("today"):
+            displayDefaultList.today();
+            break;
+        case ("this-week"):
+            displayDefaultList.thisWeek();
+            break;
+        case ("overdue"):
+            displayDefaultList.overdue();
+            break;
+        case ("archived"):
+            displayDefaultList.archived();
+            break;
+    }
+})
+
 const sidebarElement = document.querySelectorAll("#sidebar > div")
+
 
 export const displayCards = function(){
   const filters = (filterList) => {
