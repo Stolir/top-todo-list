@@ -1,6 +1,7 @@
-import { importAll } from "./helper";
+import { importAll, initialLoad } from "./helper";
 import { displayCards, sidebar } from "./display";
 import { isToday, isThisWeek, isPast } from "date-fns";
+import { storeList, retrieveList } from "./localStorage";
 
 export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
 
@@ -27,12 +28,22 @@ export const defaultFilters = [
     },
 ]
 
+export const myLists = [
 
-class MyList {
-    constructor(name, icon=assets["list.svg"]) {
+];
+
+
+
+export const noteLists = [
+    
+];
+
+
+export class MyList {
+    constructor(name, icon, tasks) {
         this.name = name;
         this.icon = icon;
-        this.tasks = [];
+        this.tasks = tasks;
     }
 
     getItems() {
@@ -40,11 +51,11 @@ class MyList {
     }
 }
 
-class NoteList {
-    constructor(name, icon=assets["file-text.svg"]) {
+export class NoteList {
+    constructor(name, icon, notes) {
         this.name = name;
         this.icon = icon;
-        this.notes = [];
+        this.notes = notes;
     }
     
     getItems() {
@@ -61,15 +72,15 @@ export class Task {
         "archive": assets["archive.svg"], 
         "delete": assets["trash-2.svg"]
     }
-    constructor(title, description, dueDate, priority, status, list){
+    constructor(title, description, dueDate, priority, status, listIndex, id){
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
         this.status = status;
-        this.list = list;
-        this.id = `#t${Task.taskCount}`
-        Task.taskCount++ 
+        this.listIndex = listIndex;
+        this.id = id;
+        Task.taskCount++;
     }
 
     toggleStatus (){
@@ -88,10 +99,10 @@ export class Note {
         "archive": assets["archive.svg"], 
         "delete": assets["trash-2.svg"]
     }
-    constructor(title, description, list){
+    constructor(title, description, listIndex){
         this.title = title;
         this.description = description;
-        this.list = list; 
+        this.listIndex = listIndex; 
         this.id = `n${Note.noteCount}`
         Note.noteCount++;
     }
@@ -101,30 +112,43 @@ export class Note {
 
 export const makeNew = function (){ 
 
-    const myList = (name="Unnamed List", icon=assets["list.svg"]) => {
-        const list = new MyList(name, icon);
+    const myList = (name="Unnamed List", icon=assets["list.svg"], tasks=[]) => {
+        const list = new MyList(name, icon, tasks);
         myLists.push(list);
         sidebar.display(defaultFilters, myLists, noteLists);
         displayCards.filters(myLists);
+        console.log(myLists)
+        if (!initialLoad) {
+            storeList(myLists, "myLists")
+        }
     }
 
-    const noteList = (name="Unnamed List", icon=assets["file-text.svg"]) => {
-        const noteList = new NoteList(name, icon);
+    const noteList = (name="Unnamed List", icon=assets["file-text.svg"], notes=[]) => {
+        const noteList = new NoteList(name, icon, notes);
         noteLists.push(noteList);
         sidebar.display(defaultFilters, myLists, noteLists);
         displayCards.filters(noteLists);
+        if (!initialLoad) {
+            storeList(noteLists, "noteLists")
+        }
     }
 
-    const task = (title, description, dueDate, priority, status, listIndex) => {
-        const task = new Task(title, description, dueDate, priority, status, myLists[listIndex]);
+    const task = (title, description, dueDate, priority, status, listIndex, id=`${Task.taskCount}`) => {
+        const task = new Task(title, description, dueDate, priority, status, listIndex, id);
         console.log(myLists[listIndex])
         myLists[listIndex].tasks.push(task);
+        if (!initialLoad) {
+            storeList(myLists, "myLists")
+        }
     }
 
-    const note = (title, description, listIndex) => {
-        const note = new Note(title, description, noteLists[listIndex]);
+    const note = (title, description, listIndex, id=`${Note.noteCount}`) => {
+        const note = new Note(title, description, listIndex, id);
         console.log(noteLists[listIndex])
         noteLists[listIndex].notes.push(note);
+        if (!initialLoad) {
+            storeList(noteLists, "noteLists")
+        }  
     }
 
     return { myList, noteList, task, note }
@@ -188,14 +212,4 @@ export const filterBy = function() {
 
     return { all, today, thisWeek, overdue }
 }()
-
-export const myLists = [
-    new MyList("My Custom List")
-];
-
-
-
-export const noteLists = [
-    new NoteList("The Odin Project")
-];
 

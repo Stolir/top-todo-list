@@ -1,4 +1,3 @@
-
 // imports all files (images/svgs/pngs etc) and maps them to a directory
 export function importAll (directory) {
     let images = {};
@@ -23,3 +22,7 @@ export function populateOptions (targetElm, options){
     }
   }
   
+export let initialLoad = false;
+export function toggleInitialLoad(value) { 
+  initialLoad === false ? initialLoad = true : initialLoad = false; 
+}

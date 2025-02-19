@@ -2,6 +2,7 @@ import "./styles.css"
 import { displayCards, sidebar, displayDefaultList, defaultFiltersElements } from "./display.js"
 import { defaultFilters, myLists, noteLists, makeNew } from "./filters.js";
 import { showModal } from "./modals.js";
+import { retrieveLists } from "./localStorage.js";
 
 const logo = document.querySelector("#logo");
 const defaultListsElement = document.querySelector("#default-lists");
@@ -16,7 +17,7 @@ const createNewButton = document.querySelector("#createNew");
 window.addEventListener("DOMContentLoaded", () => {
     displayCards.filters(defaultFilters);
     sidebar.display(defaultFilters, myLists, noteLists);
-    
+    retrieveLists()
 })
 
 logo.addEventListener("click", () => {
@@ -48,9 +49,3 @@ createNewButton.addEventListener("click", () => {
     showModal.creationType()
 })
 
-// window.addEventListener("load", () => {
-//     const allList = defaultFiltersElements.find(list => list.id === "all")
-//     allList.addEventListener("click", () => {
-//         displayDefaultList.all(myLists);
-//     })
-// })
