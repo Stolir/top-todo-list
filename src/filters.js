@@ -134,9 +134,6 @@ export class Task {
         this.id = `t${id}`;
     }
 
-    findListById () {
-
-    }
 
     toggleStatus (){
         this.status === "completed" ? this.status = "pending" : this.status = "completed";
@@ -154,10 +151,10 @@ export class Note {
         "archive": assets["archive.svg"], 
         "delete": assets["trash-2.svg"]
     }
-    constructor(title, description, listIndex, id){
+    constructor(title, description, listId, id){
         this.title = title;
         this.description = description;
-        this.listIndex = listIndex; 
+        this.listId = listId; 
         this.id = `n${id}`;
     }
 }
