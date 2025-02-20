@@ -73,6 +73,7 @@ export class MyList {
             MyList.listCount--;
             storeItem(MyList.listCount, "MyListCount")
             storeItem(Task.taskCount, "TaskCount")
+            displayCards.filters(defaultFilters);
         }
     }
 
