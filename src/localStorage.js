@@ -1,9 +1,20 @@
 import { makeNew } from "./filters";
 import { toggleInitialLoad } from "./helper";
 
-export function storeList(list, key){
+export function storeItem(item, key){
 
-    localStorage.setItem(key, JSON.stringify(list));
+    localStorage.setItem(key, JSON.stringify(item));
+}
+
+export function getStoredItem (key) {
+    const item = localStorage.getItem(key)
+    if (item) {
+        return Number(item);
+    }
+    else {
+        return 0;
+    }
+    
 }
 
 export function retrieveLists() {
@@ -14,7 +25,7 @@ export function retrieveLists() {
 
     if (myLists) {
         for (let list of myLists) {
-            makeNew.myList(list.name, list.icon);
+            makeNew.myList(list.name, list.icon, [], (list.id).replace(/\D/g,''));
             (list.tasks).forEach(task => {
                 makeNew.task(
                     task.title, 
@@ -22,7 +33,7 @@ export function retrieveLists() {
                     task.dueDate,
                     task.priority,
                     task.status,
-                    task.listIndex,
+                    task.listId,
                     task.id
                 )
             });
@@ -31,12 +42,12 @@ export function retrieveLists() {
 
     if (noteLists) {
         for (let list of noteLists) {
-            makeNew.noteList(list.name, list.icon);
+            makeNew.noteList(list.name, list.icon, [], (list.id).replace(/\D/g,''));
             (list.notes).forEach(note => {
                 makeNew.note(
                     note.title, 
                     note.description, 
-                    note.listIndex,
+                    note.listId,
                     note.id
                 )
             });

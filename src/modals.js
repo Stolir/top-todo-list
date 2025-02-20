@@ -44,7 +44,7 @@ import { myLists, noteLists } from "./filters";
         formData.get("dueDate"),
         formData.get("priority"),
         "pending",
-        Number(formData.get("myLists"))
+        myLists[Number(formData.get("myLists"))].id
       );
   
     }
@@ -66,7 +66,7 @@ import { myLists, noteLists } from "./filters";
       makeNew.note(
         formData.get("noteTitle"),
         formData.get("description"),
-        Number(formData.get("noteLists"))
+        noteLists[Number(formData.get("noteLists"))].id
       );
   
     }

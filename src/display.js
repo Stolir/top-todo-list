@@ -1,15 +1,38 @@
 import { Task, Note, filterBy } from "./filters";
+import { assets } from "./filters";
 
 const cardContainer = document.querySelector("#main");
 
 // testing purposes remove later
 cardContainer.addEventListener("click", (e) => {
-    const button = e.target.parentElement;
-    
-    switch (true) {
-        case (button.classList.contains("delete")):
-
+    if (e.target.closest("button")) {
+        const button = e.target.closest("button");
+        console.log(button)
     }
+    else if (e.target.closest("div")){
+        const card = e.target.closest("div");
+        switch (card.id) {
+            case ("all"):
+                displayDefaultList.all();
+                break;
+            case ("today"):
+                displayDefaultList.today();
+                break;
+            case ("this-week"):
+                displayDefaultList.thisWeek();
+                break;
+            case ("overdue"):
+                displayDefaultList.overdue();
+                break;
+            case ("archived"):
+                displayDefaultList.archived();
+                break;
+    }
+}
+    // switch (true) {
+    //     case (button.classList.contains("delete")):
+
+    // }
 })
 const sidebarContainer = document.querySelector("#sidebar");
 sidebarContainer.addEventListener("click", (e) => {
@@ -118,12 +141,34 @@ export const sidebar = function (){
  
      const makeElement = (list) => {
         const div = document.createElement("div")
+
+        const deleteButton = document.createElement("button");
+        deleteButton.classList.add(`delete`);
+        deleteButton.setAttribute("type", "button");
+
+        const deleteIcon = document.createElement("img");
+        deleteIcon.setAttribute("width", "20");
+        deleteIcon.setAttribute("height", "20");
+        deleteIcon.src = assets["trash-2.svg"];
+        
+        deleteButton.appendChild(deleteIcon);
+        deleteButton.addEventListener("click", (e) => {
+            if (e.target.closest("button")) {
+                const button = e.target.closest("button");
+                if (e.target.closest("button").classList.contains("delete")) {
+                    list.removeSelf(list, button.parentElement);
+                }
+                e.stopPropagation();
+            }
+        })
     
         const icon = document.createElement("img");
         icon.src = list.icon;
-        div.appendChild(icon);
 
+        div.appendChild(icon);
         div.appendChild(document.createTextNode(list.name));
+        div.appendChild(deleteButton)
+
         return div
      }
 
@@ -133,6 +178,14 @@ export const sidebar = function (){
 const makeCard = function (){
     const list = (filter) => {
         const card = document.createElement("div");
+        if (filter.getItems) {
+            card.addEventListener("click", () => {
+                displayCards.tasks(filter.getItems());
+            })
+        }
+        else {
+            card.id = (filter.name).replace(/\s+/g, '-').toLowerCase();
+        }
         card.classList.add("list-card");
         if (filter.icon){
             const icon = document.createElement("img");
@@ -194,6 +247,7 @@ const makeCard = function (){
     const note = (note) => {
         const card = document.createElement("div");
         card.classList.add("note-card");
+        card.id = note.id;
 
         const title = document.createElement("h1");
         title.textContent = note.title;
@@ -262,3 +316,11 @@ export const displayDefaultList = function() {
     return { all, today, thisWeek, overdue }
 }()
 
+const removeElement = function () {
+    const list = (list, element) => {
+        list.removeSelf();
+        element.remove();
+    }
+
+    return { list }
+}()

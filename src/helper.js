@@ -23,6 +23,6 @@ export function populateOptions (targetElm, options){
   }
   
 export let initialLoad = false;
-export function toggleInitialLoad(value) { 
+export function toggleInitialLoad() { 
   initialLoad === false ? initialLoad = true : initialLoad = false; 
 }
