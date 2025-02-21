@@ -12,6 +12,11 @@ export function importAll (directory) {
 export function populateOptions (targetElm, options){
     let index = 0;
     targetElm.textContent = '';
+    const optionElm = document.createElement("option");
+    optionElm.disabled = true;
+    optionElm.hidden = true;
+    optionElm.selected = true;
+    targetElm.appendChild(optionElm);
     for (let option of options) {
       const optionElm = document.createElement("option");
       optionElm.setAttribute("value", `${index}`);
@@ -20,8 +25,11 @@ export function populateOptions (targetElm, options){
       targetElm.appendChild(optionElm);
       index++;
     }
+
   }
   
+
+// some parts of functions need to be run only when its called in the initial page load
 export let initialLoad = false;
 export function toggleInitialLoad() { 
   initialLoad === false ? initialLoad = true : initialLoad = false; 

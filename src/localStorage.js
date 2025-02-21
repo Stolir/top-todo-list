@@ -34,7 +34,7 @@ export function retrieveLists() {
                     task.priority,
                     task.status,
                     task.listId,
-                    task.id
+                    (task.id).replace(/\D/g,'')
                 )
             });
         }
@@ -48,7 +48,7 @@ export function retrieveLists() {
                     note.title, 
                     note.description, 
                     note.listId,
-                    note.id
+                    (note.id).replace(/\D/g,'')
                 )
             });
         }

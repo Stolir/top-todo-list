@@ -2,6 +2,15 @@ import { makeNew } from "./filters";
 import { populateOptions } from "./helper";
 import { myLists, noteLists } from "./filters";
 
+const editMode = {
+  active: false, 
+  currentTarget: undefined,
+  resetToDefault() {
+    this.active = false;
+    this.currentTarget = undefined;
+  }
+}
+
   const createMyListModal = document.querySelector("#createMyList");
   const createMyListForm = createMyListModal.querySelector("form");
   createMyListForm.addEventListener("submit", (e) => {
@@ -46,8 +55,12 @@ import { myLists, noteLists } from "./filters";
         "pending",
         myLists[Number(formData.get("myLists"))].id
       );
-  
+
+      if (editMode.active) {
+        editMode.currentTarget.removeSelf()
+      }
     }
+    editMode.resetToDefault();
     createTaskModal.close()
     createTaskForm.reset()
   })
@@ -69,7 +82,11 @@ import { myLists, noteLists } from "./filters";
         noteLists[Number(formData.get("noteLists"))].id
       );
   
+      if (editMode.active) {
+        editMode.currentTarget.removeSelf()
+      }
     }
+    editMode.resetToDefault()
     createNoteModal.close();
     createNoteForm.reset();
   })
@@ -83,11 +100,11 @@ import { myLists, noteLists } from "./filters";
       
       if (e.submitter.id === "task") {
         showModal.createTask();
-        populateOptions(myListSelect, myLists)
+        
       }
       else {
         showModal.createNote()
-        populateOptions(noteListSelect, noteLists)
+        
 
       }
       creationTypeModal.close()
@@ -112,11 +129,32 @@ import { myLists, noteLists } from "./filters";
   
     const createTask = () => {
       createTaskModal.showModal()
+      populateOptions(myListSelect, myLists)
     }
   
     const createNote = () => {
       createNoteModal.showModal()
+      populateOptions(noteListSelect, noteLists)
     }
   
     return { myList, noteList, creationType, createTask, createNote }
+  }()
+
+  export const edit = function() {
+    const task = (task) => {
+      createTaskModal.querySelector("#taskTitle").value = task.title;
+      createTaskModal.querySelector("#priority").value = task.priority;
+      createTaskModal.querySelector("#description").value = task.description;
+      createTaskModal.querySelector("#dueDate").value = task.dueDate;
+      // createTaskModal.querySelector("#myLists").value = ???; current list
+      editMode.active = true;
+      editMode.currentTarget = task;
+      showModal.createTask();
+    }
+    
+    const note = (note) => {
+
+    }
+
+    return { task, note }
   }()

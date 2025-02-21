@@ -4,10 +4,10 @@ import { isToday, isThisWeek, isPast } from "date-fns";
 import { storeItem, retrieveList, getStoredItem } from "./localStorage";
 
 window.addEventListener("DOMContentLoaded", () => {
-    MyList.listCount = getStoredItem("MyListCount");
-    NoteList.listCount = getStoredItem("NoteListCount");
-    Task.taskCount = getStoredItem("TaskCount");
-    Note.noteCount = getStoredItem("NoteCount");
+    MyList.idCount = getStoredItem("MyListIdCount");
+    NoteList.idCount = getStoredItem("NoteListIdCount");
+    Task.idCount = getStoredItem("TaskIdCount");
+    Note.idCount = getStoredItem("NoteIdCount");
 })
 
 export const assets = importAll(require.context("./assets", false, /\.(png|jpe?g|svg)$/))
@@ -47,7 +47,7 @@ export const noteLists = [
 
 
 export class MyList {
-    static listCount;
+    static idCount;
     static findListById(id){
         for (let list of myLists) {
             if (list.id === id) {
@@ -66,13 +66,9 @@ export class MyList {
     removeSelf() {
         const index = myLists.indexOf(this);
         if (index > -1) {
-            Task.taskCount = Task.taskCount - this.tasks.length;
             myLists.splice(index, 1);
             storeItem(myLists, "myLists")
             sidebar.display(defaultFilters, myLists, noteLists)
-            MyList.listCount--;
-            storeItem(MyList.listCount, "MyListCount")
-            storeItem(Task.taskCount, "TaskCount")
             displayCards.filters(defaultFilters);
         }
     }
@@ -83,7 +79,7 @@ export class MyList {
 }
 
 export class NoteList {
-    static listCount;
+    static idCount;
     static findListById(id){
         for (let list of noteLists) {
             if (list.id === id) {
@@ -101,13 +97,10 @@ export class NoteList {
     removeSelf() {
         const index = noteLists.indexOf(this);
         if (index > -1) {
-            Note.noteCount = Note.noteCount - this.notes.length;
             noteLists.splice(index, 1);
             storeItem(noteLists, "noteLists");
             sidebar.display(defaultFilters, myLists, noteLists)
-            NoteList.listCount--;
-            storeItem(NoteList.listCount, "NoteListCount")
-            storeItem(Note.noteCount, "NoteCount")
+            displayCards.filters(defaultFilters);
         }
     }
 
@@ -117,7 +110,7 @@ export class NoteList {
 }
 
 export class Task {
-    static taskCount;
+    static idCount;
     static icons = {
         "view": assets["eye.svg"], 
         "checkbox": assets["minus-square.svg"], 
@@ -135,6 +128,15 @@ export class Task {
         this.id = `t${id}`;
     }
 
+    removeSelf() {
+        const containingList = MyList.findListById(this.listId);
+        const index = containingList.tasks.indexOf(this);
+        if (index > -1) {
+            containingList.tasks.splice(index, 1);
+            storeItem(myLists, "myLists")
+            displayCards.tasks(containingList.tasks);
+        }
+    }
 
     toggleStatus (){
         this.status === "completed" ? this.status = "pending" : this.status = "completed";
@@ -144,7 +146,7 @@ export class Task {
 }
 
 export class Note {
-    static noteCount;
+    static idCount;
     static icons = {
         "view": assets["eye.svg"], 
         "edit": assets["edit.svg"], 
@@ -157,55 +159,65 @@ export class Note {
         this.listId = listId; 
         this.id = `n${id}`;
     }
+
+    removeSelf() {
+        const containingList = NoteList.findListById(this.listId);
+        const index = containingList.notes.indexOf(this);
+        if (index > -1) {
+            containingList.notes.splice(index, 1);
+            storeItem(noteLists, "noteLists")
+            displayCards.notes(containingList.notes);
+        }
+    }
 }
 
 
 
 export const makeNew = function (){ 
 
-    const myList = (name="Unnamed List", icon=assets["list.svg"], tasks=[], id=`${MyList.listCount}`) => {
+    const myList = (name="Unnamed List", icon=assets["list.svg"], tasks=[], id=`${MyList.idCount}`) => {
         const list = new MyList(name, icon, tasks, id);
         myLists.push(list);
         sidebar.display(defaultFilters, myLists, noteLists);
         displayCards.filters(myLists);
         if (!initialLoad) {
             storeItem(myLists, "myLists")
-            MyList.listCount++;
-            storeItem(MyList.listCount, "MyListCount")
+            MyList.idCount++;
+            storeItem(MyList.idCount, "MyListIdCount")
         }
     }
 
-    const noteList = (name="Unnamed List", icon=assets["file-text.svg"], notes=[], id=`${NoteList.listCount}`) => {
+    const noteList = (name="Unnamed List", icon=assets["file-text.svg"], notes=[], id=`${NoteList.idCount}`) => {
         const noteList = new NoteList(name, icon, notes, id);
         noteLists.push(noteList);
         sidebar.display(defaultFilters, myLists, noteLists);
         displayCards.filters(noteLists);
         if (!initialLoad) {
             storeItem(noteLists, "noteLists")
-            NoteList.listCount++;
-            storeItem(NoteList.listCount, "NoteListCount")
+            NoteList.idCount++;
+            storeItem(NoteList.idCount, "NoteListIdCount")
         }
     }
 
-    const task = (title, description, dueDate, priority, status, listId, id=`${Task.taskCount}`) => {
+    const task = (title, description, dueDate, priority, status, listId, id=`${Task.idCount}`) => {
         const task = new Task(title, description, dueDate, priority, status, listId, id);
         console.log(MyList.findListById(listId))
-        MyList.findListById(listId).tasks.push(task);
+        MyList.findListById(listId).tasks.unshift(task);
         if (!initialLoad) {
             storeItem(myLists, "myLists")
-            Task.taskCount++;
-            storeItem(Task.taskCount, "TaskCount")
+            Task.idCount++;
+            storeItem(Task.idCount, "TaskIdCount")
         }
     }
 
-    const note = (title, description, listId, id=`${Note.noteCount}`) => {
+    const note = (title, description, listId, id=`${Note.idCount}`) => {
         const note = new Note(title, description, listId, id);
         console.log(NoteList.findListById(listId))
-        NoteList.findListById(listId).notes.push(note);
+        NoteList.findListById(listId).notes.unshift(note);
         if (!initialLoad) {
             storeItem(noteLists, "noteLists")
-            Note.noteCount++;
-            storeItem(Note.noteCount, "NoteCount")
+            Note.idCount++;
+            storeItem(Note.idCount, "NoteIdCount")
         }  
     }
 
@@ -214,9 +226,9 @@ export const makeNew = function (){
 
 export const filterBy = function() {
 
-    const all = () => {
+    const all = (targetList) => {
         const allItems = [];
-        for (let list of myLists) {
+        for (let list of targetList) {
             console.log(list.getItems())
             for (let item of list.getItems()) {
                 allItems.push(item);

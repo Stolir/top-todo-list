@@ -154,6 +154,7 @@ nav > button {
   padding: 0 1rem 0 1rem;
   border-radius: 15px;
   display: flex;
+  gap: 0.3rem;
 }
 
 .filter-heading {

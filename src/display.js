@@ -1,5 +1,7 @@
 import { Task, Note, filterBy } from "./filters";
 import { assets } from "./filters";
+import { noteLists, myLists } from "./filters";
+import { edit } from "./modals";
 
 const cardContainer = document.querySelector("#main");
 
@@ -7,7 +9,26 @@ const cardContainer = document.querySelector("#main");
 cardContainer.addEventListener("click", (e) => {
     if (e.target.closest("button")) {
         const button = e.target.closest("button");
-        console.log(button)
+        const parentCard = button.parentElement.parentElement;
+        switch (true){ 
+            case (button.classList.contains("delete")):
+                if (parentCard.classList.contains("task-card")) {
+                    removeElement.card(myLists, parentCard.id)
+                }
+                else if (parentCard.classList.contains("note-card")) {
+                    removeElement.card(noteLists, parentCard.id)
+                }
+                break;
+
+            case (button.classList.contains("edit")):
+                if (parentCard.classList.contains("task-card")) {
+                    editElement.task(myLists, parentCard.id)
+                }
+                else if (parentCard.classList.contains("note-card")) {
+                    editElement.note(noteLists, parentCard.id)
+              }
+                break;
+        }
     }
     else if (e.target.closest("div")){
         const card = e.target.closest("div");
@@ -290,7 +311,7 @@ const makeCard = function (){
 export const displayDefaultList = function() {
 
     const all = () => {
-        const tasks = filterBy.all();
+        const tasks = filterBy.all(myLists);
         displayCards.tasks(tasks)
     }
 
@@ -317,10 +338,32 @@ export const displayDefaultList = function() {
 }()
 
 const removeElement = function () {
-    const list = (list, element) => {
+    const list = (list) => {
         list.removeSelf();
-        element.remove();
     }
 
-    return { list }
+    const card = (cardList, cardId) => {
+        const allTasks = filterBy.all(cardList);
+        for (let task of allTasks) {
+            if (task.id === cardId) {
+                task.removeSelf()
+            }
+        }
+    } 
+
+    return { list, card }
+}()
+
+const editElement = function() {
+
+    const task = (cardList, cardId) => {
+        const allTasks = filterBy.all(cardList);
+        for (let task of allTasks) {
+            if (task.id === cardId) {
+                edit.task(task)
+            }
+        }
+    }
+
+    return { task }
 }()
