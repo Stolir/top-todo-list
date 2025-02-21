@@ -134,7 +134,7 @@ export class Task {
         if (index > -1) {
             containingList.tasks.splice(index, 1);
             storeItem(myLists, "myLists")
-            displayCards.tasks(containingList.tasks);
+            displayCards.filters(myLists);
         }
     }
 
@@ -166,7 +166,7 @@ export class Note {
         if (index > -1) {
             containingList.notes.splice(index, 1);
             storeItem(noteLists, "noteLists")
-            displayCards.notes(containingList.notes);
+            displayCards.filters(noteLists);
         }
     }
 }

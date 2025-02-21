@@ -13,19 +13,19 @@ cardContainer.addEventListener("click", (e) => {
         switch (true){ 
             case (button.classList.contains("delete")):
                 if (parentCard.classList.contains("task-card")) {
-                    removeElement.card(myLists, parentCard.id)
+                    removeElement.card(myLists, parentCard)
                 }
                 else if (parentCard.classList.contains("note-card")) {
-                    removeElement.card(noteLists, parentCard.id)
+                    removeElement.card(noteLists, parentCard)
                 }
                 break;
 
             case (button.classList.contains("edit")):
                 if (parentCard.classList.contains("task-card")) {
-                    editElement.task(myLists, parentCard.id)
+                    editElement.task(myLists, parentCard)
                 }
                 else if (parentCard.classList.contains("note-card")) {
-                    editElement.note(noteLists, parentCard.id)
+                    editElement.note(noteLists, parentCard)
               }
                 break;
         }
@@ -342,11 +342,12 @@ const removeElement = function () {
         list.removeSelf();
     }
 
-    const card = (cardList, cardId) => {
+    const card = (cardList, card) => {
         const allTasks = filterBy.all(cardList);
         for (let task of allTasks) {
-            if (task.id === cardId) {
+            if (task.id === card.id) {
                 task.removeSelf()
+                card.remove()
             }
         }
     } 
@@ -356,10 +357,10 @@ const removeElement = function () {
 
 const editElement = function() {
 
-    const task = (cardList, cardId) => {
+    const task = (cardList, card) => {
         const allTasks = filterBy.all(cardList);
         for (let task of allTasks) {
-            if (task.id === cardId) {
+            if (task.id === card.id) {
                 edit.task(task)
             }
         }
