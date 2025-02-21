@@ -120,7 +120,7 @@ export class Task {
     static taskCount;
     static icons = {
         "view": assets["eye.svg"], 
-        "star": assets["star.svg"], 
+        "checkbox": assets["minus-square.svg"], 
         "edit": assets["edit.svg"], 
         "archive": assets["archive.svg"], 
         "delete": assets["trash-2.svg"]
@@ -147,7 +147,6 @@ export class Note {
     static noteCount;
     static icons = {
         "view": assets["eye.svg"], 
-        "star": assets["star.svg"], 
         "edit": assets["edit.svg"], 
         "archive": assets["archive.svg"], 
         "delete": assets["trash-2.svg"]
