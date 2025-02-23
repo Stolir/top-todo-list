@@ -161,7 +161,9 @@ const editMode = {
       viewTaskModal.showModal();
     } 
 
-    const viewNote = () => {
+    const viewNote = (title, description) => {
+      viewNoteModal.querySelector(".title").textContent = title;
+      viewNoteModal.querySelector(".description").textContent = description;
       viewNoteModal.showModal();
     }
 

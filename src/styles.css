@@ -79,6 +79,16 @@
     isolation: isolate;
 }
 
+::-moz-selection { /* Code for Firefox */
+  color: white;
+  background: var(--primary);
+}
+
+::selection {
+  color: white;
+  background: var(--primary);
+}
+
 body {
     background-color: var(--background);
     font-family: "Amatic SC", serif;
@@ -226,8 +236,7 @@ nav > button {
 }
 
 .task-card p,
-.note-card p,
-.description {
+.note-card p {
   grid-area: desc;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -359,4 +368,6 @@ form input:focus {
 #view-task .description, 
 #view-note .description {
   font-size: 2rem;
+  grid-area: desc;
+  margin-bottom: auto;
 }

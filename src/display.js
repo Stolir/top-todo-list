@@ -42,7 +42,7 @@ cardContainer.addEventListener("click", (e) => {
                     viewElement.task(myLists, parentCard)
                 }
                 else if (parentCard.classList.contains("note-card")) {
-                    showModal.viewNote();
+                    viewElement.note(noteLists, parentCard)
               }
 
         }
@@ -434,6 +434,10 @@ const viewElement = function (){
         showModal.viewTask(task.title, task.description, task.priority, task.dueDate)
     }
 
+    const note = (cardList, card) => {
+        const note = findItemByElement(cardList, card);
+        showModal.viewNote(note.title, note.description)
+    }
     return {task, note}
 }()
 
