@@ -379,13 +379,9 @@ const removeElement = function () {
     }
 
     const card = (cardList, card) => {
-        const allTasks = filterBy.all(cardList);
-        for (let task of allTasks) {
-            if (task.id === card.id) {
-                task.removeSelf()
-                card.remove()
-            }
-        }
+        const task = findItemByElement(cardList, card)
+        task.removeSelf()
+        card.remove()
     } 
 
     return { list, card }
@@ -394,37 +390,25 @@ const removeElement = function () {
 const editElement = function() {
 
     const task = (cardList, card) => {
-        const allTasks = filterBy.all(cardList);
-        for (let task of allTasks) {
-            if (task.id === card.id) {
-                const list = MyList.findListById(task.listId)
-                edit.task(task, list)
-            }
-        }
+        const task = findItemByElement(cardList, card)
+        const list = MyList.findListById(task.listId)
+        edit.task(task, list)
     }
+
     const note = (cardList, card) => {
-        const allNotes = filterBy.all(cardList);
-        for (let note of allNotes) {
-            if (note.id === card.id) {
-                const list = NoteList.findListById(note.listId)
-                edit.note(note, list)
-            }
-        }
+        const note = findItemByElement(cardList, card)
+        const list = NoteList.findListById(note.listId)
+        edit.note(note, list)
     }
 
     return { task, note }
 }()
 
 function toggleCheckbox(cardList, card){
-    const allTasks = filterBy.all(cardList);
-        for (let task of allTasks) {
-            if (task.id === card.id) {
-                task.toggleStatus();
-                const list = MyList.findListById(task.listId)
-                displayCards.tasks(list.tasks)
-                break;
-            }
-        }
+    const task = findItemByElement(cardList, card)
+    task.toggleStatus();
+    const list = MyList.findListById(task.listId)
+    displayCards.tasks(list.tasks)
 }
 
 const viewElement = function (){

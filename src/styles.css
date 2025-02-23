@@ -325,7 +325,7 @@ form input:focus {
   height: 65px;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   right: 1.5rem;
   bottom: 1.5rem;
   border: var(--primary) 1px solid;
