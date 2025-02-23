@@ -1,4 +1,4 @@
-import { Task, Note, filterBy } from "./filters";
+import { MyList, NoteList, Task, Note, filterBy } from "./filters";
 import { assets } from "./filters";
 import { noteLists, myLists } from "./filters";
 import { edit } from "./modals";
@@ -361,7 +361,14 @@ const editElement = function() {
         const allTasks = filterBy.all(cardList);
         for (let task of allTasks) {
             if (task.id === card.id) {
-                edit.task(task)
+                let list = undefined;
+                if (cardList === myLists) {
+                    list = MyList.findListById(task.listId)
+                }
+                else if (cardList === noteLists){
+                    list = NoteList.findListById(task.listId)
+                }
+                edit.task(task, list)
             }
         }
     }

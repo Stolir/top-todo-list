@@ -1,13 +1,23 @@
 import { makeNew } from "./filters";
 import { populateOptions } from "./helper";
 import { myLists, noteLists } from "./filters";
+import { displayCards } from "./display";
 
 const editMode = {
   active: false, 
   currentTarget: undefined,
+  parentList: undefined,
+
   resetToDefault() {
     this.active = false;
     this.currentTarget = undefined;
+    this.parentList = undefined;
+  },
+
+  setValues(active, target, parentList) {
+    this.active = active;
+    this.currentTarget = target;
+    this.parentList = parentList;
   }
 }
 
@@ -58,6 +68,7 @@ const editMode = {
 
       if (editMode.active) {
         editMode.currentTarget.removeSelf()
+        displayCards.tasks(editMode.parentList.tasks)
       }
     }
     editMode.resetToDefault();
@@ -84,6 +95,7 @@ const editMode = {
   
       if (editMode.active) {
         editMode.currentTarget.removeSelf()
+        displayCards.notes(editMode.parentList.notes)
       }
     }
     editMode.resetToDefault()
@@ -141,14 +153,13 @@ const editMode = {
   }()
 
   export const edit = function() {
-    const task = (task) => {
+    const task = (task, list) => {
       createTaskModal.querySelector("#taskTitle").value = task.title;
       createTaskModal.querySelector("#priority").value = task.priority;
       createTaskModal.querySelector("#description").value = task.description;
       createTaskModal.querySelector("#dueDate").value = task.dueDate;
       // createTaskModal.querySelector("#myLists").value = ???; current list
-      editMode.active = true;
-      editMode.currentTarget = task;
+      editMode.setValues(true, task, list)
       showModal.createTask();
     }
     
