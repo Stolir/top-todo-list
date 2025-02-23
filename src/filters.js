@@ -181,7 +181,7 @@ export const makeNew = function (){
         const list = new MyList(name, icon, tasks, id);
         myLists.push(list);
         sidebar.display(defaultFilters, myLists, noteLists);
-        displayCards.filters(myLists);
+        displayCards.filters(myLists, "task");
         if (!initialLoad) {
             storeItem(myLists, "myLists")
             MyList.idCount++;
@@ -193,7 +193,7 @@ export const makeNew = function (){
         const noteList = new NoteList(name, icon, notes, id);
         noteLists.push(noteList);
         sidebar.display(defaultFilters, myLists, noteLists);
-        displayCards.filters(noteLists);
+        displayCards.filters(noteLists, "note");
         if (!initialLoad) {
             storeItem(noteLists, "noteLists")
             NoteList.idCount++;
