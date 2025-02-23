@@ -157,7 +157,7 @@ const editMode = {
       viewTaskModal.querySelector(".description").textContent = description;
       viewTaskModal.querySelector(".priority").textContent = priority;
       viewTaskModal.querySelector(".priority").classList.add(priority);
-      viewTaskModal.querySelector(".date").textContent = `Due:${dueDate}`
+      viewTaskModal.querySelector(".date").textContent = `Due: ${dueDate}`
       viewTaskModal.showModal();
     } 
 

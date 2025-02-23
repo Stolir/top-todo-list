@@ -35,7 +35,7 @@ cardContainer.addEventListener("click", (e) => {
                 }
                 break;
             case (button.classList.contains("archive")):
-                alert("This feature was not implemented but was kept for decorative reasons");
+                alert("This feature is unavailable")
                 break;
             case (button.classList.contains("view")):
                 if (parentCard.classList.contains("task-card")) {
@@ -63,7 +63,7 @@ cardContainer.addEventListener("click", (e) => {
                 displayDefaultList.overdue();
                 break;
             case ("archived"):
-                alert("This feature was not implemented but was kept for decorative reasons")
+                alert("This feature is unavailable")
                 break;
     }
 }
@@ -89,7 +89,7 @@ sidebarContainer.addEventListener("click", (e) => {
             displayDefaultList.overdue();
             break;
         case ("archived"):
-            alert("This feature was not implemented but was kept for decorative reasons")
+            alert("This feature is unavailable")
             break;
     }
 })
@@ -98,11 +98,11 @@ const sidebarElement = document.querySelectorAll("#sidebar > div")
 
 
 export const displayCards = function(){
-  const filters = (filterList) => {
+  const filters = (filterList, type) => {
     cardContainer.textContent = "";
     
     for (let filter of filterList) {
-        const card = makeCard.list(filter);
+        const card = makeCard.list(filter, type);
     
         cardContainer.appendChild(card)
     }
@@ -214,11 +214,16 @@ export const sidebar = function (){
 }()
 
 const makeCard = function (){
-    const list = (filter) => {
+    const list = (filter, type) => {
         const card = document.createElement("div");
         if (filter.getItems) {
             card.addEventListener("click", () => {
-                displayCards.tasks(filter.getItems());
+                if (type === "task") {
+                    displayCards.tasks(filter.getItems());
+                }
+                else if (type === "note") {
+                    displayCards.notes(filter.getItems()); 
+                }
             })
         }
         else {

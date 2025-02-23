@@ -15,9 +15,9 @@ const newNoteListButton = noteListsElement.querySelector("img");
 const createNewButton = document.querySelector("#createNew");
 
 window.addEventListener("DOMContentLoaded", () => {
-    displayCards.filters(defaultFilters);
-    sidebar.display(defaultFilters, myLists, noteLists);
     retrieveLists()
+    sidebar.display(defaultFilters, myLists, noteLists);
+    displayCards.filters(defaultFilters);
 })
 
 logo.addEventListener("click", () => {
@@ -29,11 +29,11 @@ defaultListsElement.addEventListener("click", () => {
 });
 
 myListsElement.addEventListener("click", () => {
-    displayCards.filters(myLists);
+    displayCards.filters(myLists, "task");
 });
 
 noteListsElement.addEventListener("click", () => {
-    displayCards.filters(noteLists);
+    displayCards.filters(noteLists, "note");
 });
 
 newListButton.addEventListener("click", () => {
