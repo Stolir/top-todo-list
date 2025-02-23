@@ -2,6 +2,7 @@ import { MyList, NoteList, Task, Note, filterBy } from "./filters";
 import { assets } from "./filters";
 import { noteLists, myLists } from "./filters";
 import { edit } from "./modals";
+import { showModal } from "./modals";
 
 const cardContainer = document.querySelector("#main");
 
@@ -28,6 +29,22 @@ cardContainer.addEventListener("click", (e) => {
                     editElement.note(noteLists, parentCard)
               }
                 break;
+            case (button.classList.contains("checkbox")):
+                if (parentCard.classList.contains("task-card")) {
+                    toggleCheckbox(myLists, parentCard)
+                }
+                break;
+            case (button.classList.contains("archive")):
+                alert("This feature was not implemented but was kept for decorative reasons");
+                break;
+            case (button.classList.contains("view")):
+                if (parentCard.classList.contains("task-card")) {
+                    viewElement.task(myLists, parentCard)
+                }
+                else if (parentCard.classList.contains("note-card")) {
+                    showModal.viewNote();
+              }
+
         }
     }
     else if (e.target.closest("div")){
@@ -46,7 +63,7 @@ cardContainer.addEventListener("click", (e) => {
                 displayDefaultList.overdue();
                 break;
             case ("archived"):
-                displayDefaultList.archived();
+                alert("This feature was not implemented but was kept for decorative reasons")
                 break;
     }
 }
@@ -72,7 +89,7 @@ sidebarContainer.addEventListener("click", (e) => {
             displayDefaultList.overdue();
             break;
         case ("archived"):
-            displayDefaultList.archived();
+            alert("This feature was not implemented but was kept for decorative reasons")
             break;
     }
 })
@@ -247,6 +264,7 @@ const makeCard = function (){
 
         for (let icon in Task.icons) {
 
+
             const button = document.createElement("button");
             button.classList.add(`${icon}`);
             button.setAttribute("type", "button");
@@ -254,7 +272,20 @@ const makeCard = function (){
             const img = document.createElement("img");
             img.setAttribute("width", "20");
             img.setAttribute("height", "20");
-            img.src = Task.icons[icon];
+            console.log(`icon = ${icon} \n Task.icon = ${Task.icons["checkbox"]}`)
+            if (icon === "checkbox") {
+                if (task.status === "completed") {
+                    img.src = assets["check-square.svg"]
+                    card.classList.add("completed")
+                }
+                else {
+                    img.src = Task.icons[icon]
+                }
+            }
+            else {
+                img.src = Task.icons[icon];
+            }
+
             
             button.appendChild(img);
 
@@ -361,17 +392,51 @@ const editElement = function() {
         const allTasks = filterBy.all(cardList);
         for (let task of allTasks) {
             if (task.id === card.id) {
-                let list = undefined;
-                if (cardList === myLists) {
-                    list = MyList.findListById(task.listId)
-                }
-                else if (cardList === noteLists){
-                    list = NoteList.findListById(task.listId)
-                }
+                const list = MyList.findListById(task.listId)
                 edit.task(task, list)
             }
         }
     }
+    const note = (cardList, card) => {
+        const allNotes = filterBy.all(cardList);
+        for (let note of allNotes) {
+            if (note.id === card.id) {
+                const list = NoteList.findListById(note.listId)
+                edit.note(note, list)
+            }
+        }
+    }
 
-    return { task }
+    return { task, note }
 }()
+
+function toggleCheckbox(cardList, card){
+    const allTasks = filterBy.all(cardList);
+        for (let task of allTasks) {
+            if (task.id === card.id) {
+                task.toggleStatus();
+                const list = MyList.findListById(task.listId)
+                displayCards.tasks(list.tasks)
+                break;
+            }
+        }
+}
+
+const viewElement = function (){
+
+    const task = (cardList, card) => {
+        const task = findItemByElement(cardList, card);
+        showModal.viewTask(task.title, task.description, task.priority, task.dueDate)
+    }
+
+    return {task, note}
+}()
+
+function findItemByElement(cardList, card) {
+    const allItems = filterBy.all(cardList);
+    for (let item of allItems) {
+        if (item.id === card.id) {
+            return item;
+        }
+    }
+}

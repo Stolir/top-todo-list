@@ -31,7 +31,7 @@ export const defaultFilters = [
     },
     {
         name: "Archived",
-        icon: assets["archive.svg"]
+        icon: assets["archive.svg"],
     },
 ]
 
@@ -114,6 +114,7 @@ export class Task {
     static icons = {
         "view": assets["eye.svg"], 
         "checkbox": assets["minus-square.svg"], 
+        // "checkedCheckbox": assets["check-square.svg"],
         "edit": assets["edit.svg"], 
         "archive": assets["archive.svg"], 
         "delete": assets["trash-2.svg"]
@@ -140,6 +141,7 @@ export class Task {
 
     toggleStatus (){
         this.status === "completed" ? this.status = "pending" : this.status = "completed";
+        storeItem(myLists, "myLists")
     }
 
 

@@ -226,7 +226,8 @@ nav > button {
 }
 
 .task-card p,
-.note-card p {
+.note-card p,
+.description {
   grid-area: desc;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -325,3 +326,37 @@ form input:focus {
   gap: 1rem;
 }
 
+.completed { 
+  background-color: rgb(0, 128, 0, 0.1);
+}
+
+#view-task > div, 
+#view-note > div {
+  display: grid;
+  align-items: center;
+  gap: 1rem;
+  grid-template: min-content 5fr min-content / 1fr 1fr;
+  grid-template-areas: "title priority"
+                       "desc desc"
+                       "date date";
+}
+
+#view-task, 
+#view-note {
+  gap: 0.5rem;
+  border-radius: 0.3rem;
+  background-color: rgba(255, 255, 255);
+  padding: 1rem 2rem;
+  height: 40%;
+  width: 50%;
+}
+
+#view-task .title, 
+#view-note .title {
+  font-size: 3rem;
+}
+
+#view-task .description, 
+#view-note .description {
+  font-size: 2rem;
+}

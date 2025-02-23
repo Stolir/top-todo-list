@@ -21,6 +21,9 @@ const editMode = {
   }
 }
 
+  const viewTaskModal = document.querySelector("#view-task");
+  const viewNoteModal = document.querySelector("#view-note");
+
   const createMyListModal = document.querySelector("#createMyList");
   const createMyListForm = createMyListModal.querySelector("form");
   createMyListForm.addEventListener("submit", (e) => {
@@ -149,7 +152,20 @@ const editMode = {
       populateOptions(noteListSelect, noteLists)
     }
   
-    return { myList, noteList, creationType, createTask, createNote }
+    const viewTask = (title, description, priority, dueDate) => {
+      viewTaskModal.querySelector(".title").textContent = title;
+      viewTaskModal.querySelector(".description").textContent = description;
+      viewTaskModal.querySelector(".priority").textContent = priority;
+      viewTaskModal.querySelector(".priority").classList.add(priority);
+      viewTaskModal.querySelector(".date").textContent = `Due:${dueDate}`
+      viewTaskModal.showModal();
+    } 
+
+    const viewNote = () => {
+      viewNoteModal.showModal();
+    }
+
+    return { myList, noteList, creationType, createTask, createNote, viewTask, viewNote }
   }()
 
   export const edit = function() {
@@ -163,8 +179,11 @@ const editMode = {
       showModal.createTask();
     }
     
-    const note = (note) => {
-
+    const note = (note, list) => {
+      createNoteModal.querySelector("#noteTitle").value = note.title;
+      createNoteModal.querySelector("#description").value = note.description;
+      editMode.setValues(true, note, list)
+      showModal.createNote();
     }
 
     return { task, note }
